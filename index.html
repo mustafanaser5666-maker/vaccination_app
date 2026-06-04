@@ -4,8 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>د. مصطفى عبد الكريم — جدول اللقاحات</title>
-<!-- PWA meta tags -->
-<link rel="manifest" href="manifest.json">
+
+<!-- وسم المانيفست المدمج كلياً لتحويل الموقع إلى تطبيق فوري -->
+<link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogImRyLW11c3RhZmEtYXBwIiwKICAic2hvcnRfbmFtZSIgOiAi2YTZgtiNin2K3Yp9iqINij2LfZgdir2KfZhCIsCiAgInN0YXJ0X3VybCI6ICIuLyIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzAwQzlBNyIsCiAgInRoZW1lX2NvbG9yIjogIiMwMEM5QTciLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWwsJXNDMndpZHRoPScxOTInIGhlaWdodD0nMTkyJyB2aWV3Qm94PScwIDAgMTAwIDEwMCclM0UlM0NyZWN0IHdpZHRoPScxMDAnIGhlaWdodD0nMTAwJyBmaWxsPSclMjMwMEM5QTcnLyUzRSUzQ3RleHQgeD0nNTAnIHk9JzY3JyBmb250LXNpemU9JzUwJyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBmaWxsPSd3aGl0ZSclM0UlRDglOTclRDglOTElRDglQTclRDklODUlRDglQTclRDklODUlM0MvdGV4dCUzRSUzQy9zdmclM0UiLAogICAgICAidHlwZSI6ICJpbWFnZS9zdmcreG1sIiwKICAgICAgInNpemVzIjogIjE5MngxOTIiCiAgICB9LAogICAgewogICAgICAic3JjIjogImRhdGE6aW1hZ2Uvc3ZnK3htbCwlc0MydndpZHRoPT引用UxMicgaGVpZ2h0PSc1MTInIHZpZXdCb3g9JzAgMCAxMDAgMTAwJyUzRSUzQ3JlY3Qgd2lkdGg9JzEwMCcgaGVpZ2h0PScxMDAnIGZpbGw9JyUyMzAwQzlBNycvUzUlM0N0ZXh0IHg9JzUwJyB5PSc2NycgZm9udC1zaXplPSc1MCcgdGV4dC1hbmNob3I9J21pZGRsZScgZmlsbCd3aGl0ZSclM0UlRDglOTclRDglOTElRDglQTclRDklODUlRDglQTclRDklODUlM0MvdGV4dCUzRSUzQy9zdmclM0UiLAogICAgICAidHlwZSI6ICJpbWFnZS9zdmcreG1sIiwKICAgICAgInNpemVzIjogIjUxMng1MTIiCiAgICB9CiAgXQp9">
+
 <meta name="theme-color" content="#00C9A7">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -220,7 +222,7 @@ footer { text-align:center; padding:1.2rem 1rem; font-size:0.72rem; color:var(--
 <div class="offline-banner" id="offlineBanner">📴 أنت غير متصل بالإنترنت — التطبيق يعمل بدون انترنت</div>
 
 <script>
-// تم حذف الشهر الثالث من قائمة البيانات بنجاح
+// الكود المحدث بالكامل بعد حذف الشهر الثالث
 const vaccineData = {
   birth: { label:'عند الولادة', vaccines:[
     {name:'BCG (السل)',desc:'لقاح السل — جرعة وحيدة بالذراع الأيسر',icon:'🛡️',type:'required'},
@@ -233,14 +235,14 @@ const vaccineData = {
     {name:'الروتا فيروس — الجرعة 1',desc:'يحمي من الإسهال الشديد',icon:'🌀',type:'optional'},
   ]},
   '4m': { label:'4 أشهر', vaccines:[
-    {name:'الخماسي (DTP-HepB-Hib) — الجرعة 3',desc:'الجرعة الثالثة من الأساسية',icon:'💉',type:'required'},
-    {name:'شلل الأطفال الفموي (OPV) — الجرعة 3',desc:'الجرعة الثالثة',icon:'💧',type:'required'},
-    {name:'المكورات الرئوية (PCV) — الجرعة 3',desc:'الجرعة الثالثة',icon:'🫁',type:'required'},
-    {name:'الروتا فيروس — الجرعة 3',desc:'الجرعة الثالثة والأخيرة (حسب النوع)',icon:'🌀',type:'optional'},
+    {name:'الخماسي (DTP-HepB-Hib) — الجرعة 2',desc:'الجرعة الثانية من الأساسية',icon:'💉',type:'required'},
+    {name:'شلل الأطفال الفموي (OPV) — الجرعة 2',desc:'الجرعة الثانية',icon:'💧',type:'required'},
+    {name:'المكورات الرئوية (PCV) — الجرعة 2',desc:'الجرعة الثانية',icon:'🫁',type:'required'},
+    {name:'الروتا فيروس — الجرعة 2',desc:'الجرعة الثانية والأخيرة (حسب النوع)',icon:'🌀',type:'optional'},
   ]},
   '6m': { label:'6 أشهر', vaccines:[
-    {name:'الخماسي (DTP-HepB-Hib) — الجرعة المعززة/الثالثة',desc:'إتمام السلسلة الأساسية',icon:'💉',type:'required'},
-    {name:'شلل الأطفال الفموي (OPV) — الجرعة الثالثة/المعززة المبكرة',desc:'جرعة إضافية حسب الجدول',icon:'💧',type:'required'},
+    {name:'الخماسي (DTP-HepB-Hib) — الجرعة 3',desc:'إتمام السلسلة الأساسية الجرعة الثالثة',icon:'💉',type:'required'},
+    {name:'شلل الأطفال الفموي (OPV) — الجرعة 3',desc:'الجرعة الثالثة',icon:'💧',type:'required'},
     {name:'التهاب الكبد B (الجرعة الثالثة)',desc:'إكمال سلسلة الكبد B',icon:'💊',type:'required'},
     {name:'الإنفلونزا (الموسمي)',desc:'يُعطى سنوياً بدءاً من عمر 6 أشهر',icon:'🌡️',type:'optional'},
   ]},
@@ -269,7 +271,6 @@ const vaccineData = {
   ]},
 };
 
-// تم تعديل المصفوفات لضمان عدم ظهور زر الـ 3 أشهر بالواجهة
 const ageKeysOrder = ['birth', '2m', '4m', '6m', '9m', '12m', '15m', '18m', '2y'];
 const ageButtonNames = {
   birth: 'عند الولادة', '2m': 'شهرين', '4m': '4 أشهر',
@@ -309,14 +310,13 @@ function clearTabs() {
 function getKeyFromAge(y, m) {
   const totalMonths = (y * 12) + m;
   if (totalMonths === 0) return 'birth';
-  if (totalMonths <= 3) return '2m'; // الحساب اليدوي صار يوجه للشهرين مباشرة بدلاً من الثالث
-  if (totalMonths <= 4) return '4m';
-  if (totalMonths <= 6) return '6m';
-  if (totalMonths <= 9) return '9m';
-  if (totalMonths <= 12) return '12m';
-  if (totalMonths <= 15) return '15m';
-  if (totalMonths <= 18) return '18m';
-  if (totalMonths <= 24) return '2y';
+  if (totalMonths <= 3) return '2m'; 
+  if (totalMonths <= 5) return '4m';
+  if (totalMonths <= 8) return '6m';
+  if (totalMonths <= 11) return '9m';
+  if (totalMonths <= 14) return '12m';
+  if (totalMonths <= 17) return '15m';
+  if (totalMonths <= 23) return '18m';
   return '2y';
 }
 
@@ -332,7 +332,7 @@ function checkVaccines() {
     const y = parseInt(yearsVal) || 0;
     const m = parseInt(monthsVal) || 0;
     if (y < 0 || m < 0 || m > 11) {
-      alert('الرجاء إدخال سنوات صحيحة (0-18) وأشهر (0-11)');
+      alert('الرجاء إدخال سنوات صحيحة وأشهر بشكل منطقي');
       return;
     }
     key = getKeyFromAge(y, m);
@@ -340,9 +340,8 @@ function checkVaccines() {
 
   const resultsDiv = document.getElementById('results');
   if (!key || !vaccineData[key]) {
-    resultsDiv.innerHTML = `<div class="no-vaccines"><div style="font-size:2.8rem;margin-bottom:0.5rem">📌</div><div style="font-weight:800;color:var(--navy);margin-bottom:0.3rem">لا توجد لقاحات مجدولة لهذا العمر</div><div>تأكدي من اكتمال اللقاحات السابقة واستشيري الطبيب</div></div>`;
+    resultsDiv.innerHTML = `<div class="no-vaccines">📌 لا توجد لقاحات مجدولة لهذا السن</div>`;
     resultsDiv.classList.add('show');
-    resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
     return;
   }
 
@@ -366,44 +365,50 @@ function checkVaccines() {
 
   let html = `
     <div class="result-header">
-      <div><div class="age-display">${data.label}</div><div class="age-label">الجدول الموصى به</div></div>
+      <div><div class="age-display">${data.label}</div><div class="age-label">الجدول الطبي المعتمد</div></div>
       <div class="count-badge">${data.vaccines.length} لقاح</div>
     </div>
   `;
-  if (req.length) { html += `<div class="section-title">💉 اللقاحات الإلزامية</div>`; html += req.map(vaccineCard).join(''); }
-  if (imp.length) { html += `<div class="section-title">⚠️ لقاحات مهمة جداً</div>`; html += imp.map(vaccineCard).join(''); }
-  if (opt.length) { html += `<div class="section-title">✨ لقاحات اختيارية موصى بها</div>`; html += opt.map(vaccineCard).join(''); }
-  html += `<div class="note-box"><strong>🔔 تذكير طبي:</strong> هذا الجدول للإرشاد — استشيري د. مصطفى عبد الكريم أو طبيب الأطفال المعالج.</div>`;
+  if (req.length) { html += `<div class="section-title">💉 اللقاحات الإلزامية الأساسية</div>` + req.map(vaccineCard).join(''); }
+  if (imp.length) { html += `<div class="section-title">⚠️ لقاحات مهمة جداً</div>` + imp.map(vaccineCard).join(''); }
+  if (opt.length) { html += `<div class="section-title">➕ لقاحات اختيارية إضافية</div>` + opt.map(vaccineCard).join(''); }
+  html += `<div class="note-box"><strong>🔔 تذكير:</strong> الجدول للإرشاد الطبي الفوري — يرجى مراجعة د. مصطفى عبد الكريم للتأكيد.</div>`;
 
   resultsDiv.innerHTML = html;
   resultsDiv.classList.add('show');
   resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-// PWA Service Worker
+// سيرفر الخدمة المدمج ذاتياً لتشغيل التطبيق والملفات كلياً بدون شبكة إنترنت (Offline)
+const inlineSw = `
+const CACHE_NAME = 'vaccine-app-v3';
+const ASSETS = ['./', './index.html'];
+self.addEventListener('install', e => {
+  e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
+});
+self.addEventListener('activate', e => {
+  e.waitUntil(caches.keys().then(keys => Promise.all(keys.map(k => k !== CACHE_NAME ? caches.delete(k) : null))).then(() => self.clients.claim()));
+});
+self.addEventListener('fetch', e => {
+  e.respondWith(caches.match(e.request).then(res => res || fetch(e.request).catch(() => caches.match('./index.html'))));
+});`;
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').then(registration => {
-      console.log('Service Worker registered');
-    }).catch(error => {
-      console.log('Service Worker failed:', error);
-    });
+    const blob = new Blob([inlineSw], { type: 'text/javascript' });
+    const swUrl = URL.createObjectURL(blob);
+    navigator.serviceWorker.register(swUrl, { scope: './' }).then(() => console.log('Embedded Service Worker Active')).catch(err => console.log('SW Error:', err));
   });
 }
 
-window.addEventListener('online', () => {
-  document.getElementById('offlineBanner').classList.remove('show');
-});
-window.addEventListener('offline', () => {
-  document.getElementById('offlineBanner').classList.add('show');
-});
+window.addEventListener('online', () => document.getElementById('offlineBanner').classList.remove('show'));
+window.addEventListener('offline', () => document.getElementById('offlineBanner').classList.add('show'));
 
 document.addEventListener('DOMContentLoaded', () => {
   buildAgeTabs();
   setTimeout(() => {
-    const defaultBirthBtn = document.querySelector('.age-tab[data-key="birth"]');
-    if (defaultBirthBtn) defaultBirthBtn.click();
-    else { const firstBtn = document.querySelector('.age-tab'); if(firstBtn) firstBtn.click(); }
+    const birthBtn = document.querySelector('.age-tab[data-key="birth"]');
+    if (birthBtn) birthBtn.click();
   }, 100);
 });
 </script>
