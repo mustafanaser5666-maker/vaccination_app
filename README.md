@@ -57,7 +57,7 @@ header .sub { color:rgba(255,255,255,0.85); font-size:0.95rem; margin-top:0.3rem
 }
 .insta-btn:hover { opacity:0.85; transform: scale(1.02);}
 
-main { max-width:560px; margin:-2rem auto 3rem; padding:0 1rem; }
+main { max-width:560px; margin:-2rem auto 3rem; padding:0 1rem; }٥٦
 
 .input-card {
   background:var(--card); border-radius:28px; padding:1.6rem 1.5rem 2rem;
