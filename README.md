@@ -1,43 +1,411 @@
-# تطبيق جدول لقاحات الأطفال 💉👶
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>د. مصطفى عبد الكريم — جدول اللقاحات</title>
+<!-- PWA meta tags -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#00C9A7">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="لقاحات أطفال">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%2300C9A7'/%3E%3Ctext x='50' y='67' font-size='50' text-anchor='middle' fill='white'%3E💉%3C/text%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --mint: #00C9A7; --mint-dark: #00A88A; --mint-light: #E0FAF5;
+  --navy: #0B2545; --navy-mid: #134074; --sky: #EEF4FF;
+  --warn: #FF6B6B; --gold: #FFD166; --text: #1a2e44;
+  --muted: #6b7e96; --card: #ffffff; --bg: #F0F7FF;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Tajawal',sans-serif; background:var(--bg); min-height:100vh; color:var(--text); overflow-x:hidden; }
 
-## د. مصطفى عبد الكريم الحسيني
-طبيب أطفال وحديثي الولادة
+header {
+  background: linear-gradient(135deg, #0B2545 0%, #134074 100%);
+  padding: 2rem 1.5rem 3rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+header::before {
+  content:''; position:absolute; top:-60px; right:-60px;
+  width:220px; height:220px; border-radius:50%;
+  background:rgba(0,201,167,0.12);
+}
+header::after {
+  content:''; position:absolute; bottom:-80px; left:-40px;
+  width:280px; height:280px; border-radius:50%;
+  background:rgba(0,201,167,0.08);
+}
+.logo { font-size:2.8rem; margin-bottom:0.4rem; position:relative; z-index:1; }
+header h1 { color:#fff; font-size:1.7rem; font-weight:800; position:relative; z-index:1; }
+header .sub { color:rgba(255,255,255,0.85); font-size:0.95rem; margin-top:0.3rem; position:relative; z-index:1; }
+.badge {
+  display:inline-block; background:var(--mint); color:#fff;
+  font-size:0.75rem; padding:3px 12px; border-radius:20px;
+  margin-top:0.8rem; font-weight:600; position:relative; z-index:1;
+}
+.insta-btn {
+  display:inline-flex; align-items:center; gap:6px;
+  margin-top:0.8rem; margin-right:0.4rem;
+  background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);
+  color:#fff; font-size:0.85rem; font-weight:700;
+  padding:6px 18px; border-radius:40px; text-decoration:none;
+  position:relative; z-index:1; transition:opacity 0.2s, transform 0.1s;
+}
+.insta-btn:hover { opacity:0.85; transform: scale(1.02);}
 
----
+main { max-width:560px; margin:-2rem auto 3rem; padding:0 1rem; }
 
-## المميزات الرئيسية ✨
+.input-card {
+  background:var(--card); border-radius:28px; padding:1.6rem 1.5rem 2rem;
+  box-shadow:0 12px 35px rgba(11,37,69,0.12); margin-bottom:1.5rem;
+}
+.input-card h2 { font-size:1.2rem; font-weight:800; margin-bottom:1rem; color:var(--navy); display: flex; align-items: center; gap: 0.4rem;}
 
-- ✅ **يعمل بدون إنترنت 100%** - تطبيق Progressive Web App (PWA)
-- ✅ **قابل للتثبيت** على الشاشة الرئيسية (iOS و Android)
-- ✅ **واجهة عربية (RTL)** جميلة واحترافية
-- ✅ **سريع جداً** - حجم صغير جداً
-- ✅ **آمن وخاص** - لا يحفظ بيانات شخصية
+.age-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+  gap: 0.65rem;
+  margin-bottom: 1.2rem;
+}
+.age-tab {
+  background:var(--sky); border:2px solid transparent; border-radius:40px;
+  padding:0.6rem 0.2rem; text-align:center; cursor:pointer; transition:all 0.2s;
+  font-family:'Tajawal',sans-serif; font-size:0.8rem; font-weight:600; color:var(--navy-mid);
+}
+.age-tab:hover { border-color:var(--mint); background:var(--mint-light); transform: translateY(-1px);}
+.age-tab.active { border-color:var(--mint); background:var(--mint); color:#fff; box-shadow:0 4px 10px rgba(0,201,167,0.3);}
 
----
+.divider {
+  text-align:center; color:var(--muted); font-size:0.75rem; margin:1rem 0 0.8rem; position:relative;
+}
+.divider::before, .divider::after {
+  content:''; position:absolute; top:50%; width:38%; height:1px; background:#e2e8f0;
+}
+.divider::before { right:0; } .divider::after { left:0; }
 
-## الملفات 📁
+.input-row { display:flex; gap:0.8rem; }
+.input-group { flex:1; }
+.input-group label { display:block; font-size:0.75rem; font-weight:700; color:var(--muted); margin-bottom:0.3rem; }
+.input-group input {
+  width:100%; padding:0.7rem 1rem; border:2px solid #e2e8f0; border-radius:20px;
+  font-family:'Tajawal',sans-serif; font-size:1rem; color:var(--text);
+  outline:none; transition:all 0.2s; background:var(--sky);
+}
+.input-group input:focus { border-color:var(--mint); background:#fff; box-shadow:0 0 0 3px rgba(0,201,167,0.2);}
 
-- `index.html` - العرض الرئيسي
-- `app.js` - المنطق وبيانات اللقاحات
-- `manifest.json` - ملف التطبيق
-- `sw.js` - Service Worker للعمل بدون انترنت
+.btn-check {
+  width:100%; margin-top:1.4rem; padding:0.9rem;
+  background:linear-gradient(135deg,var(--mint) 0%,var(--mint-dark) 100%);
+  color:#fff; border:none; border-radius:50px; font-family:'Tajawal',sans-serif;
+  font-size:1rem; font-weight:800; cursor:pointer; transition:all 0.2s;
+  box-shadow:0 6px 18px rgba(0,201,167,0.35);
+}
+.btn-check:hover { transform:translateY(-2px); box-shadow:0 12px 24px rgba(0,201,167,0.4); }
+.btn-check:active { transform:translateY(1px); }
 
----
+.results { display:none; animation:slideUp 0.4s ease; }
+.results.show { display:block; }
+@keyframes slideUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
 
-## الاستخدام 🚀
+.result-header {
+  background:linear-gradient(135deg,var(--navy) 0%,var(--navy-mid) 100%);
+  border-radius:26px; padding:1.2rem 1.5rem; margin-bottom:1.2rem;
+  color:#fff; display:flex; align-items:center; gap:1rem;
+  flex-wrap: wrap;
+}
+.result-header .age-display { font-size:1.9rem; font-weight:800; line-height:1; letter-spacing:-0.5px; }
+.result-header .age-label { font-size:0.75rem; color:rgba(255,255,255,0.7); }
+.result-header .count-badge {
+  margin-right:auto; background:var(--mint); border-radius:30px;
+  padding:0.3rem 1rem; font-size:0.8rem; font-weight:800;
+}
+.section-title {
+  font-size:0.8rem; font-weight:800; color:var(--navy-mid);
+  letter-spacing:0.5px; margin:1rem 0 0.6rem; border-right:3px solid var(--mint); padding-right:0.6rem;
+}
+.vaccine-card {
+  background:var(--card); border-radius:20px; padding:0.9rem 1.1rem;
+  margin-bottom:0.8rem; box-shadow:0 4px 14px rgba(11,37,69,0.05);
+  display:flex; align-items:flex-start; gap:1rem;
+  border-right:4px solid var(--mint); transition:all 0.2s;
+}
+.vaccine-card:hover { transform:translateX(-4px); box-shadow:0 8px 20px rgba(0,0,0,0.05);}
+.vaccine-card.optional { border-right-color:var(--gold); }
+.vaccine-card.important { border-right-color:var(--warn); }
+.vaccine-icon {
+  width:44px; height:44px; border-radius:16px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.5rem; flex-shrink:0; background:var(--mint-light);
+}
+.vaccine-card.optional .vaccine-icon { background:#FFF8E6; }
+.vaccine-card.important .vaccine-icon { background:#FFF0F0; }
+.vaccine-info { flex:1; }
+.vaccine-name { font-size:0.95rem; font-weight:800; color:var(--navy); margin-bottom:0.2rem; }
+.vaccine-desc { font-size:0.73rem; color:var(--muted); line-height:1.45; }
+.vaccine-tag {
+  font-size:0.65rem; padding:2px 10px; border-radius:30px;
+  font-weight:700; margin-top:0.4rem; display:inline-block;
+}
+.tag-required { background:#E0FAF5; color:var(--mint-dark); }
+.tag-optional { background:#FFF8E6; color:#CC8800; }
+.tag-important { background:#FFF0F0; color:var(--warn); }
+.no-vaccines { background:var(--card); border-radius:28px; padding:2rem; text-align:center; color:var(--muted); box-shadow:0 4px 14px rgba(0,0,0,0.03);}
+.note-box {
+  background:#FFF8E6; border-radius:20px; padding:0.9rem 1.2rem; margin-top:1.2rem;
+  font-size:0.78rem; color:#7a5c00; border-right:3px solid var(--gold); line-height:1.6;
+}
+footer { text-align:center; padding:1.2rem 1rem; font-size:0.72rem; color:var(--muted); line-height:1.7; border-top:1px solid rgba(0,0,0,0.05); margin-top:0.5rem;}
+.footer-insta { color:#cc2366; font-weight:800; text-decoration:none; }
 
-1. افتح التطبيق في متصفح الويب
-2. اختر عمر طفلك من الأزرار أو ادخله يدوياً
-3. اضغط "عرض اللقاحات"
+.offline-banner {
+  display: none;
+  background: #FF6B6B;
+  color: white;
+  text-align: center;
+  padding: 8px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+.offline-banner.show { display: block; }
+</style>
+</head>
+<body>
 
----
+<header>
+  <div class="logo">💉👶</div>
+  <h1>د. مصطفى عبد الكريم الحسيني</h1>
+  <p class="sub">طبيب أطفال وحديثي الولادة</p>
+  <div>
+    <span class="badge">📋 جدول اللقاحات المعتمد</span>
+    <a href="https://www.instagram.com/DR.ER11" target="_blank" class="insta-btn">📸 @DR.ER11</a>
+  </div>
+</header>
 
-## ملاحظة مهمة ⚠️
+<main>
+  <div class="input-card">
+    <h2>🔍 اختاري عمر طفلك</h2>
+    <div class="age-grid" id="ageTabsContainer"></div>
+    <div class="divider">أو أدخلي العمر يدوياً</div>
+    <div class="input-row">
+      <div class="input-group">
+        <label>السنوات</label>
+        <input type="number" id="years" placeholder="0" min="0" max="18" step="1" oninput="clearTabs()">
+      </div>
+      <div class="input-group">
+        <label>الأشهر</label>
+        <input type="number" id="months" placeholder="0" min="0" max="11" step="1" oninput="clearTabs()">
+      </div>
+    </div>
+    <button class="btn-check" onclick="checkVaccines()">📋 عرض اللقاحات المطلوبة</button>
+  </div>
+  <div class="results" id="results"></div>
+</main>
 
-**هذا التطبيق للمعلومات فقط وليس بديل عن استشارة طبيب الأطفال**
+<footer>
+  <strong>د. مصطفى عبد الكريم الحسيني</strong><br>
+  طبيب أطفال وحديثي الولادة — استشارات الأطفال والرضع<br>
+  <a href="https://www.instagram.com/DR.ER11" target="_blank" class="footer-insta">📸 Instagram: @DR.ER11</a><br>
+  <span style="font-size:0.7rem;">هذا التطبيق للإرشاد — راجعي طبيب الأطفال للحصول على توصيات دقيقة</span>
+</footer>
 
----
+<div class="offline-banner" id="offlineBanner">📴 أنت غير متصل بالإنترنت — التطبيق يعمل بدون انترنت</div>
 
-**د. مصطفى عبد الكريم الحسيني**
+<script>
+// تم حذف الشهر الثالث من قائمة البيانات بنجاح
+const vaccineData = {
+  birth: { label:'عند الولادة', vaccines:[
+    {name:'BCG (السل)',desc:'لقاح السل — جرعة وحيدة بالذراع الأيسر',icon:'🛡️',type:'required'},
+    {name:'التهاب الكبد B (الجرعة الأولى)',desc:'الجرعة الأولى خلال 24 ساعة من الولادة',icon:'💊',type:'required'},
+  ]},
+  '2m': { label:'شهرين (2 أشهر)', vaccines:[
+    {name:'الخماسي (DTP-HepB-Hib) — الجرعة 1',desc:'الدفتيريا، الكزاز، الشاهوق، الكبد B، المستدمية النزلية',icon:'💉',type:'required'},
+    {name:'شلل الأطفال الفموي (OPV) — الجرعة 1',desc:'لقاح شلل الأطفال عن طريق الفم',icon:'💧',type:'required'},
+    {name:'المكورات الرئوية (PCV) — الجرعة 1',desc:'يقي من التهاب السحايا والالتهاب الرئوي',icon:'🫁',type:'required'},
+    {name:'الروتا فيروس — الجرعة 1',desc:'يحمي من الإسهال الشديد',icon:'🌀',type:'optional'},
+  ]},
+  '4m': { label:'4 أشهر', vaccines:[
+    {name:'الخماسي (DTP-HepB-Hib) — الجرعة 3',desc:'الجرعة الثالثة من الأساسية',icon:'💉',type:'required'},
+    {name:'شلل الأطفال الفموي (OPV) — الجرعة 3',desc:'الجرعة الثالثة',icon:'💧',type:'required'},
+    {name:'المكورات الرئوية (PCV) — الجرعة 3',desc:'الجرعة الثالثة',icon:'🫁',type:'required'},
+    {name:'الروتا فيروس — الجرعة 3',desc:'الجرعة الثالثة والأخيرة (حسب النوع)',icon:'🌀',type:'optional'},
+  ]},
+  '6m': { label:'6 أشهر', vaccines:[
+    {name:'الخماسي (DTP-HepB-Hib) — الجرعة المعززة/الثالثة',desc:'إتمام السلسلة الأساسية',icon:'💉',type:'required'},
+    {name:'شلل الأطفال الفموي (OPV) — الجرعة الثالثة/المعززة المبكرة',desc:'جرعة إضافية حسب الجدول',icon:'💧',type:'required'},
+    {name:'التهاب الكبد B (الجرعة الثالثة)',desc:'إكمال سلسلة الكبد B',icon:'💊',type:'required'},
+    {name:'الإنفلونزا (الموسمي)',desc:'يُعطى سنوياً بدءاً من عمر 6 أشهر',icon:'🌡️',type:'optional'},
+  ]},
+  '9m': { label:'9 أشهر', vaccines:[
+    {name:'الحصبة (MMR) — الجرعة الأولى',desc:'لقاح الحصبة والنكاف والحصبة الألمانية',icon:'🔴',type:'required'},
+    {name:'الحمى الصفراء',desc:'مطلوب للسفر لمناطق موبوءة (اختياري)',icon:'🟡',type:'optional'},
+  ]},
+  '12m': { label:'سنة (12 شهراً)', vaccines:[
+    {name:'المكورات الرئوية (PCV) — الجرعة المعززة',desc:'الجرعة المنشطة',icon:'🫁',type:'required'},
+    {name:'جدري الماء (Varicella) — الجرعة 1',desc:'يقي من الحماق',icon:'⭐',type:'important'},
+    {name:'التهاب الكبد A — الجرعة 1',desc:'الجرعة الأولى',icon:'🧡',type:'optional'},
+  ]},
+  '15m': { label:'15 شهراً', vaccines:[
+    {name:'MMR — الجرعة الثانية',desc:'الجرعة الثانية من الحصبة الثلاثي',icon:'🔴',type:'required'},
+    {name:'جدري الماء (Varicella) — الجرعة 2',desc:'الجرعة الثانية لضمان المناعة',icon:'⭐',type:'important'},
+  ]},
+  '18m': { label:'18 شهراً', vaccines:[
+    {name:'DTP — الجرعة المعززة',desc:'جرعة معززة للدفتيريا والكزاز والشاهوق',icon:'💉',type:'required'},
+    {name:'شلل الأطفال (OPV) — الجرعة المعززة',desc:'جرعة معززة مهمة',icon:'💧',type:'required'},
+    {name:'التهاب الكبد A — الجرعة 2',desc:'الجرعة الثانية والأخيرة',icon:'🧡',type:'optional'},
+  ]},
+  '2y': { label:'سنتان (24 شهر)', vaccines:[
+    {name:'المكورات السحائية (MenACWY)',desc:'يحمي من التهاب السحايا البكتيري (جرعة واحدة)',icon:'🧠',type:'important'},
+    {name:'التيفوئيد',desc:'موصى به في حال السفر أو المناطق الموبوءة',icon:'🌡️',type:'optional'},
+    {name:'الإنفلونزا السنوي',desc:'جرعة سنوية مستمرة',icon:'🌡️',type:'optional'},
+  ]},
+};
 
-📸 [@DR.ER11](https://www.instagram.com/DR.ER11)
+// تم تعديل المصفوفات لضمان عدم ظهور زر الـ 3 أشهر بالواجهة
+const ageKeysOrder = ['birth', '2m', '4m', '6m', '9m', '12m', '15m', '18m', '2y'];
+const ageButtonNames = {
+  birth: 'عند الولادة', '2m': 'شهرين', '4m': '4 أشهر',
+  '6m': '6 أشهر', '9m': '9 أشهر', '12m': 'سنة', '15m': '15 شهر', '18m': '18 شهر', '2y': 'سنتين'
+};
+
+function buildAgeTabs() {
+  const container = document.getElementById('ageTabsContainer');
+  if(!container) return;
+  container.innerHTML = '';
+  ageKeysOrder.forEach(key => {
+    const btn = document.createElement('div');
+    btn.className = 'age-tab';
+    btn.textContent = ageButtonNames[key] || key;
+    btn.setAttribute('data-key', key);
+    btn.onclick = (function(k) { return function() { selectAge(k, this); }; })(key);
+    container.appendChild(btn);
+  });
+}
+
+let selectedKey = null;
+
+function selectAge(key, el) {
+  selectedKey = key;
+  document.querySelectorAll('.age-tab').forEach(tab => tab.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('years').value = '';
+  document.getElementById('months').value = '';
+  checkVaccines();
+}
+
+function clearTabs() {
+  selectedKey = null;
+  document.querySelectorAll('.age-tab').forEach(tab => tab.classList.remove('active'));
+}
+
+function getKeyFromAge(y, m) {
+  const totalMonths = (y * 12) + m;
+  if (totalMonths === 0) return 'birth';
+  if (totalMonths <= 3) return '2m'; // الحساب اليدوي صار يوجه للشهرين مباشرة بدلاً من الثالث
+  if (totalMonths <= 4) return '4m';
+  if (totalMonths <= 6) return '6m';
+  if (totalMonths <= 9) return '9m';
+  if (totalMonths <= 12) return '12m';
+  if (totalMonths <= 15) return '15m';
+  if (totalMonths <= 18) return '18m';
+  if (totalMonths <= 24) return '2y';
+  return '2y';
+}
+
+function checkVaccines() {
+  let key = selectedKey;
+  if (!key) {
+    const yearsVal = document.getElementById('years').value;
+    const monthsVal = document.getElementById('months').value;
+    if ((!yearsVal || yearsVal === '') && (!monthsVal || monthsVal === '')) {
+      alert('👶 يرجى إدخال عمر الطفل أو اختياره من الأزرار أعلاه');
+      return;
+    }
+    const y = parseInt(yearsVal) || 0;
+    const m = parseInt(monthsVal) || 0;
+    if (y < 0 || m < 0 || m > 11) {
+      alert('الرجاء إدخال سنوات صحيحة (0-18) وأشهر (0-11)');
+      return;
+    }
+    key = getKeyFromAge(y, m);
+  }
+
+  const resultsDiv = document.getElementById('results');
+  if (!key || !vaccineData[key]) {
+    resultsDiv.innerHTML = `<div class="no-vaccines"><div style="font-size:2.8rem;margin-bottom:0.5rem">📌</div><div style="font-weight:800;color:var(--navy);margin-bottom:0.3rem">لا توجد لقاحات مجدولة لهذا العمر</div><div>تأكدي من اكتمال اللقاحات السابقة واستشيري الطبيب</div></div>`;
+    resultsDiv.classList.add('show');
+    resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    return;
+  }
+
+  const data = vaccineData[key];
+  const req = data.vaccines.filter(v => v.type === 'required');
+  const imp = data.vaccines.filter(v => v.type === 'important');
+  const opt = data.vaccines.filter(v => v.type === 'optional');
+
+  const vaccineCard = (v) => `
+    <div class="vaccine-card ${v.type === 'optional' ? 'optional' : (v.type === 'important' ? 'important' : '')}">
+      <div class="vaccine-icon">${v.icon}</div>
+      <div class="vaccine-info">
+        <div class="vaccine-name">${v.name}</div>
+        <div class="vaccine-desc">${v.desc}</div>
+        <span class="vaccine-tag ${v.type === 'required' ? 'tag-required' : (v.type === 'important' ? 'tag-important' : 'tag-optional')}">
+          ${v.type === 'required' ? '✓ إلزامي أساسي' : (v.type === 'important' ? '⚠️ مهم جداً' : '➕ اختياري موصى به')}
+        </span>
+      </div>
+    </div>
+  `;
+
+  let html = `
+    <div class="result-header">
+      <div><div class="age-display">${data.label}</div><div class="age-label">الجدول الموصى به</div></div>
+      <div class="count-badge">${data.vaccines.length} لقاح</div>
+    </div>
+  `;
+  if (req.length) { html += `<div class="section-title">💉 اللقاحات الإلزامية</div>`; html += req.map(vaccineCard).join(''); }
+  if (imp.length) { html += `<div class="section-title">⚠️ لقاحات مهمة جداً</div>`; html += imp.map(vaccineCard).join(''); }
+  if (opt.length) { html += `<div class="section-title">✨ لقاحات اختيارية موصى بها</div>`; html += opt.map(vaccineCard).join(''); }
+  html += `<div class="note-box"><strong>🔔 تذكير طبي:</strong> هذا الجدول للإرشاد — استشيري د. مصطفى عبد الكريم أو طبيب الأطفال المعالج.</div>`;
+
+  resultsDiv.innerHTML = html;
+  resultsDiv.classList.add('show');
+  resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// PWA Service Worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').then(registration => {
+      console.log('Service Worker registered');
+    }).catch(error => {
+      console.log('Service Worker failed:', error);
+    });
+  });
+}
+
+window.addEventListener('online', () => {
+  document.getElementById('offlineBanner').classList.remove('show');
+});
+window.addEventListener('offline', () => {
+  document.getElementById('offlineBanner').classList.add('show');
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  buildAgeTabs();
+  setTimeout(() => {
+    const defaultBirthBtn = document.querySelector('.age-tab[data-key="birth"]');
+    if (defaultBirthBtn) defaultBirthBtn.click();
+    else { const firstBtn = document.querySelector('.age-tab'); if(firstBtn) firstBtn.click(); }
+  }, 100);
+});
+</script>
+</body>
+</html>
