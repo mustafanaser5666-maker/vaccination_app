@@ -219,7 +219,7 @@ footer { text-align:center; padding:1.2rem 1rem; font-size:0.72rem; color:var(--
 <div class="offline-banner" id="offlineBanner">📴 أنت غير متصل بالإنترنت — التطبيق يعمل بدون انترنت</div>
 
 <script>
-// البيانات الطبية مطابقة 100% للجدول العراقي الوطني المرسل في الصورة 61911.jpg
+// البيانات الطبية مطابقة 100% للجدول العراقي الوطني ومصححة لغوياً
 const vaccineData = {
   v24h: { label:'خلال أول ٢٤ ساعة من الولادة', vaccines:[
     {name:'الكبد الفايروسي نمط B صغار',desc:'جرعة الولادة لحماية كبد الطفل المبكرة',icon:'💊',type:'required'},
@@ -263,7 +263,7 @@ const vaccineData = {
   ]},
   y4_6: { label:'عمر (٤ - ٦) سنوات', vaccines:[
     {name:'شلل الأطفال الفموي (منشطة ٢)',desc:'الجرعة التنشيطية الفموية الثانية والأخيرة قبل دخول المدرسة',icon:'💧',type:'required'},
-    {name:'الالقاء الثلاثي (منشطة ٢)',desc:'الجرعة التنشيطية الثانية والأخيرة المعتمدة لسن المدارس',icon:'💉',type:'required'},
+    {name:'اللقاح الثلاثي (منشطة ٢)',desc:'الجرعة التنشيطية الثانية والأخيرة المعتمدة لسن المدارس',icon:'💉',type:'required'},
     {name:'فيتامين A (٢٠٠,٠٠٠) وحدة دولية',desc:'جرعة فيتامين أ الوقائية الختامية لسن الطفولة المبكرة',icon:'💊',type:'vitamin'},
   ]},
 };
@@ -376,9 +376,9 @@ function checkVaccines() {
   resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-// سيرفر خدمة مدمج يدعم التخزين المحلي والتشغيل بدون شبكة (PWA Cache v6)
+// سيرفر خدمة مدمج يدعم التخزين المحلي والتشغيل بدون شبكة (PWA Cache v7)
 const inlineSw = `
-const CACHE_NAME = 'vaccine-iraq-v6';
+const CACHE_NAME = 'vaccine-iraq-v7';
 const ASSETS = ['./', './index.html'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
@@ -394,7 +394,7 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     const blob = new Blob([inlineSw], { type: 'text/javascript' });
     const swUrl = URL.createObjectURL(blob);
-    navigator.serviceWorker.register(swUrl, { scope: './' }).then(() => console.log('Embedded National Table SW Active')).catch(err => console.log('SW Error:', err));
+    navigator.serviceWorker.register(swUrl, { scope: './' }).then(() => console.log('Fixed Typo SW Active')).catch(err => console.log('SW Error:', err));
   });
 }
 
